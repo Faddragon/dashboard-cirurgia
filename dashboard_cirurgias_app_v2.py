@@ -73,4 +73,4 @@ if mv_input:
 
 
 st.markdown("---")
-st.caption("Dashboard desenvolvido por CECI - Computational Excellence for Clinical Innovation")
+st.caption("Dashboard desenvolvido por CECI - Clinical Evidence & Care Insights")
