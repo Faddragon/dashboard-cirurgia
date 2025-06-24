@@ -20,13 +20,6 @@ def carregar_dados():
 
 df = carregar_dados()
 
-# 📍 Seção na barra lateral
-st.sidebar.title("🚨 Complicações Pós-Operatórias")
-comp_selecionadas = st.sidebar.multiselect(
-    "Selecione a(s) complicação(ões) para visualizar:",
-    options=complicacoes_disponiveis,
-    default=[]
-)
 
 # 🎯 Lista fixa de complicações (ajustável manualmente)
 complicacoes_disponiveis = [
@@ -40,6 +33,13 @@ complicacoes_disponiveis = [
     "PARALISIA FACIAL EM PAROTIDECTOMIA"
 ]
 
+# 📍 Seção na barra lateral
+st.sidebar.title("🚨 Complicações Pós-Operatórias")
+comp_selecionadas = st.sidebar.multiselect(
+    "Selecione a(s) complicação(ões) para visualizar:",
+    options=complicacoes_disponiveis,
+    default=[]
+)
 
 # Obter lista de meses únicos e ordenados
 meses_disponiveis = sorted(df['ANO_MES'].dropna().unique())
