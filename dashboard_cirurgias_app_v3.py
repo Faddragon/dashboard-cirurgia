@@ -20,6 +20,20 @@ def carregar_dados():
 
 df = carregar_dados()
 
+# Obter lista de meses únicos e ordenados
+meses_disponiveis = sorted(df['ANO_MES'].dropna().unique())
+
+# Seletor múltiplo de meses
+meses_selecionados = st.multiselect(
+    "🗓️ Selecione os mês(es) para exibição:",
+    options=meses_disponiveis,
+    default=meses_disponiveis  # todos selecionados por padrão
+)
+
+# Filtrar o DataFrame conforme a seleção
+df = df[df['ANO_MES'].isin(meses_selecionados)]
+
+
 # Layout com colunas
 col1, col2 = st.columns(2)
 
