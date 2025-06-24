@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.express as px
 
 st.set_page_config(page_title="Dashboard Cirurgias CCP - IAVC", layout="wide")
-st.title("📊 Dashboard de Cirurgias - CCP (1º trimestre de 2025)")
+st.title("📊 Dashboard de Cirurgias - CCP (Janeiro - Abril 2025)")
 
 @st.cache_data
 def carregar_dados():
