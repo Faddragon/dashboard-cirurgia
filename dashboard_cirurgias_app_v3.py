@@ -20,6 +20,27 @@ def carregar_dados():
 
 df = carregar_dados()
 
+# 📍 Seção na barra lateral
+st.sidebar.title("🚨 Complicações Pós-Operatórias")
+comp_selecionadas = st.sidebar.multiselect(
+    "Selecione a(s) complicação(ões) para visualizar:",
+    options=complicacoes_disponiveis,
+    default=[]
+)
+
+# 🎯 Lista fixa de complicações (ajustável manualmente)
+complicacoes_disponiveis = [
+    "HEMATOMA",
+    "SEROMA EM TIREOIDECTOMIA",
+    "HIPOPARATIREOIDISMO EM TIREOIDECTOMIA",
+    "DISFONIA EM TIREOIDECTOMIA",
+    "INFECÇÃO EM TIREOIDECTOMIA",
+    "ÓBITOS GERAIS",
+    "FISTULAS",
+    "PARALISIA FACIAL EM PAROTIDECTOMIA"
+]
+
+
 # Obter lista de meses únicos e ordenados
 meses_disponiveis = sorted(df['ANO_MES'].dropna().unique())
 
@@ -147,6 +168,17 @@ fig_local.update_layout(
 )
 
 st.plotly_chart(fig_local, use_container_width=True)
+
+if comp_selecionadas:
+    st.subheader("🚨 Casos com Complicações Selecionadas")
+
+    # Filtrar os casos que têm alguma das complicações marcadas como SIM
+    colunas_complicacoes = [col for col in df.columns if col.upper() in comp_selecionadas]
+    df_comp = df[df[colunas_complicacoes].apply(lambda row: any(row == 'SIM'), axis=1)]
+
+    st.write(f"Total de casos com complicações selecionadas: {len(df_comp)}")
+    st.dataframe(df_comp)
+
 
 #✅ 1. Filtrar os casos relevantes
 
