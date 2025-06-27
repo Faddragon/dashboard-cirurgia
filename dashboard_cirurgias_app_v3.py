@@ -141,15 +141,21 @@ if pagina == "📊 Visão Geral":
 elif pagina == "🦋 Tireoidectomia Total":
     st.title("🦋 Complicações após Tireoidectomia Total")
 
-    # 🎤 Disfonia
-    st.subheader("🎤 Disfonia (n = 9)")
-    dados_disfonia = pd.DataFrame({
-        "MV": [199740, 207727, 108751, 203208, 206345, 215084, 205099, 218961, 216728],
-        "Laringoscopia Alterada?": ["Sim"] * 9,
-        "Melhora?": ["Sim", "Não", "Sim", "Não", "Não", "Não", "Não", "Não", "Não"],
-        "Tempo até Melhora (dias)": ["62", None, "46", None, None, None, None, None, None]
-    })
-    st.dataframe(dados_disfonia)
+# 🎤 Disfonia
+st.subheader("🎤 Disfonia (n = 9)")
+dados_disfonia = pd.DataFrame({
+    "MV": [199740, 207727, 108751, 203208, 206345, 215084, 205099, 218961, 216728],
+    "Melhora?": ["Sim", "Não", "Sim", "Não", "Não", "Não", "Não", "Não", "Não"],
+    "Tempo até Melhora (dias)": ["62", None, "46", None, None, None, None, None, None]
+})
+
+# Função de destaque condicional
+def highlight_sim(val):
+    return 'background-color: red; color: white;' if val == "Sim" else ''
+
+# Aplicar estilo e exibir
+st.dataframe(dados_disfonia.style.applymap(highlight_sim, subset=["Melhora?"]))
+
 
     # 🩸 Hematoma
     st.subheader("🩸 Hematoma (n = 1)")
