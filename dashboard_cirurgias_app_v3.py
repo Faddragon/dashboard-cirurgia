@@ -32,13 +32,56 @@ complicacoes_disponiveis = [
     "PARALISIA FACIAL EM PAROTIDECTOMIA"
 ]
 
-# 📍 Filtros na barra lateral
-st.sidebar.title("🚨 Complicações Pós-Operatórias")
-comp_selecionadas = st.sidebar.multiselect(
-    "Selecione a(s) complicação(ões) para visualizar:",
-    options=complicacoes_disponiveis,
-    default=[]
-)
+# Seletor de páginas no menu lateral
+pagina = st.sidebar.radio("🗂️ Selecione a página:", [
+    "📊 Visão Geral",
+    "🦋 Tireoidectomia Total"
+])
+# =====================================
+# ABA 1 - Visão Geral
+# =====================================
+if pagina == "📊 Visão Geral":
+    # (seu conteúdo atual do dashboard vem aqui)
+    # tudo o que já está no seu código original
+    pass  # substitua esse pass pelo restante do seu código
+
+# =====================================
+# ABA 2 - Complicações Tireoidectomia Total
+# =====================================
+elif pagina == "🦋 Tireoidectomia Total":
+    st.header("🦋 Complicações após Tireoidectomia Total")
+
+    # 📌 Disfonia
+    st.subheader("🎤 Disfonia (n = 9)")
+    dados_disfonia = pd.DataFrame({
+        "MV": [199740, 207727, 108751, 203208, 206345, 215084, 205099, 218961, 216728],
+        "Laringoscopia Alterada?": ["Sim"] * 9,
+        "Melhora?": ["Sim", "Não", "Sim", "Não", "Não", "Não", "Não", "Não", "Não"],
+        "Tempo até Melhora (dias)": ["62", None, "46", None, None, None, None, None, None]
+    })
+    st.dataframe(dados_disfonia)
+
+    # 📌 Hematoma
+    st.subheader("🩸 Hematoma (n = 1)")
+    st.write("- MV: 210328")
+
+    # 📌 Parestesia / Hipocalcemia / Hipoparatireoidismo
+    st.subheader("🧪 Hipoparatireoidismo / Parestesia (n = 2)")
+    dados_hipopara = pd.DataFrame({
+        "MV": [128177, 215897],
+        "Comentário": [
+            "Somente parestesia sem alteração de PTH",
+            "Somente parestesia sem alteração de PTH"
+        ]
+    })
+    st.dataframe(dados_hipopara)
+
+    # 📌 Seroma
+    st.subheader("💧 Seroma (n = 4)")
+    mv_seroma = [210319, 207683, 216790, 209340]
+    st.write("MV dos casos com seroma:")
+    st.write(", ".join(map(str, mv_seroma)))
+
 
 meses_disponiveis = sorted(df['ANO_MES'].dropna().unique())
 
