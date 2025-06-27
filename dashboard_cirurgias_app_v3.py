@@ -58,7 +58,8 @@ df = df[df['ANO_MES'].isin(meses_selecionados)]
 # Layout com colunas
 
 
-col1, _ = st.columns(2)  # Mantém só uma coluna para o gráfico de linha
+col1, _ = st.columns(2)  # Ou apenas: st.columns(1) se quiser uma só
+
 
 # Gráfico de tendência (linha)
 with col1:
@@ -92,7 +93,7 @@ fig_chefe = px.bar(df_chefe, x="Quantidade", y="Chefe", orientation="h", text="Q
 st.plotly_chart(fig_chefe, use_container_width=True)
 
 # Cirurgias por grupo com múltiplas cores
-with col2:
+
     st.subheader("🏥 Cirurgias")
     df_grupo = df["CIRURGIA_GRUPO"].value_counts().reset_index()
     df_grupo.columns = ["Tipo de Cirurgia", "Quantidade"]
