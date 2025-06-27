@@ -44,13 +44,6 @@ if pagina == "📊 Visão Geral":
         "PARALISIA FACIAL EM PAROTIDECTOMIA"
     ]
 
-    st.sidebar.title("🚨 Complicações Pós-Operatórias")
-    comp_selecionadas = st.sidebar.multiselect(
-        "Selecione a(s) complicação(ões) para visualizar:",
-        options=complicacoes_disponiveis,
-        default=[]
-    )
-
     # 🎛️ Filtro por mês
     meses_disponiveis = sorted(df['ANO_MES'].dropna().unique())
     meses_selecionados = st.multiselect(
@@ -124,14 +117,6 @@ if pagina == "📊 Visão Geral":
     fig_local = px.bar(subgrupo_counts, x='Quantidade', y='Subgrupo Cirúrgico', orientation='h', text='Quantidade', color='Subgrupo Cirúrgico')
     fig_local.update_layout(template='simple_white', height=500, showlegend=False)
     st.plotly_chart(fig_local, use_container_width=True)
-
-    # 🚨 Complicações selecionadas
-    if comp_selecionadas:
-        st.subheader("🚨 Casos com Complicações Selecionadas")
-        colunas_complicacoes = [col for col in df.columns if col.upper() in comp_selecionadas]
-        df_comp = df[df[colunas_complicacoes].apply(lambda row: any(row == 'SIM'), axis=1)]
-        st.write(f"Total de casos com complicações selecionadas: {len(df_comp)}")
-        st.dataframe(df_comp)
 
     # 🕐 Tabela tempo por subgrupo
     st.subheader("🕐 Tempo Cirúrgico por Subgrupo (Anestesia Local sem Traqueostomia)")
