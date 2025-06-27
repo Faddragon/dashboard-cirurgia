@@ -1,6 +1,6 @@
-
-#Para rodar, 
+# Para rodar:
 # streamlit run dashboard_cirurgias_app_v2.py
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -20,8 +20,7 @@ def carregar_dados():
 
 df = carregar_dados()
 
-
-# 🎯 Lista fixa de complicações (ajustável manualmente)
+# 🎯 Lista fixa de complicações
 complicacoes_disponiveis = [
     "HEMATOMA",
     "SEROMA EM TIREOIDECTOMIA",
@@ -33,7 +32,7 @@ complicacoes_disponiveis = [
     "PARALISIA FACIAL EM PAROTIDECTOMIA"
 ]
 
-# 📍 Seção na barra lateral
+# 📍 Filtros na barra lateral
 st.sidebar.title("🚨 Complicações Pós-Operatórias")
 comp_selecionadas = st.sidebar.multiselect(
     "Selecione a(s) complicação(ões) para visualizar:",
@@ -41,27 +40,19 @@ comp_selecionadas = st.sidebar.multiselect(
     default=[]
 )
 
-# Obter lista de meses únicos e ordenados
 meses_disponiveis = sorted(df['ANO_MES'].dropna().unique())
 
-# Seletor múltiplo de meses
 meses_selecionados = st.multiselect(
     "🗓️ Selecione os mês(es) para exibição:",
     options=meses_disponiveis,
-    default=meses_disponiveis  # todos selecionados por padrão
+    default=meses_disponiveis
 )
 
-# Filtrar o DataFrame conforme a seleção
 df = df[df['ANO_MES'].isin(meses_selecionados)]
 
+# 📊 Gráficos principais
+col1, _ = st.columns(2)
 
-# Layout com colunas
-
-
-col1, _ = st.columns(2)  # Ou apenas: st.columns(1) se quiser uma só
-
-
-# Gráfico de tendência (linha)
 with col1:
     st.subheader("📈 Número de Procedimentos por Mês")
     df_mes = df.groupby("ANO_MES").size().reset_index(name="Quantidade")
@@ -69,58 +60,38 @@ with col1:
     fig_linha.update_traces(line_color='royalblue')
     st.plotly_chart(fig_linha, use_container_width=True)
 
-# 🔽 Agora o gráfico de barras vai abaixo, fora das colunas
+# 🔽 Gráfico de barras abaixo
 st.subheader("🏥 Cirurgias")
 df_grupo = df["CIRURGIA_GRUPO"].value_counts().reset_index()
 df_grupo.columns = ["Tipo de Cirurgia", "Quantidade"]
 fig_grupo = px.bar(df_grupo, x="Quantidade", y="Tipo de Cirurgia", orientation="h", text="Quantidade", color="Tipo de Cirurgia")
 st.plotly_chart(fig_grupo, use_container_width=True)
 
-
-# Gráfico de tendência (linha) para número de procedimentos por mês
-#with col1:
-#    st.subheader("📈 Número de Procedimentos por Mês")
-#    df_mes = df.groupby("ANO_MES").size().reset_index(name="Quantidade")
-#    fig_linha = px.line(df_mes, x="ANO_MES", y="Quantidade", markers=True)
-#    fig_linha.update_traces(line_color='royalblue')
-#    st.plotly_chart(fig_linha, use_container_width=True)
-
-# Número de cirurgias por chefe com múltiplas cores
+# 👨‍⚕️ Cirurgias por chefe
 st.subheader("👨‍⚕️ Cirurgias por Cirurgião Chefe")
 df_chefe = df["CHEFE"].value_counts().reset_index()
 df_chefe.columns = ["Chefe", "Quantidade"]
 fig_chefe = px.bar(df_chefe, x="Quantidade", y="Chefe", orientation="h", text="Quantidade", color="Chefe")
 st.plotly_chart(fig_chefe, use_container_width=True)
 
-# Cirurgias por grupo com múltiplas cores
-st.subheader("🏥 Cirurgias")
-df_grupo = df["CIRURGIA_GRUPO"].value_counts().reset_index()
-df_grupo.columns = ["Tipo de Cirurgia", "Quantidade"]
-fig_grupo = px.bar(df_grupo, x="Quantidade", y="Tipo de Cirurgia", orientation="h", text="Quantidade", color="Tipo de Cirurgia")
-st.plotly_chart(fig_grupo, use_container_width=True)
-
-# Cirurgias por patologia (grupo mestre)
+# 🧠 Cirurgias por patologia
 st.subheader("🧠 Cirurgias por Patologia")
 df_mestre = df["GRUPO_MESTRE"].value_counts().reset_index()
 df_mestre.columns = ["Grupo Patológico", "Quantidade"]
 fig_mestre = px.pie(df_mestre, names="Grupo Patológico", values="Quantidade", hole=0.3)
 st.plotly_chart(fig_mestre, use_container_width=True)
 
-# Tabela de duração por tipo de cirurgia com estatísticas
+# ⏱️ Estatísticas de duração por tipo de cirurgia
 st.subheader("⏱️ Estatísticas de Duração por Tipo de Cirurgia")
 df_estatisticas = df.groupby("CIRURGIA_GRUPO")["DURACAO_HORAS"].agg(["count", "min", "max", "mean", "std"]).reset_index()
 df_estatisticas.columns = ["Tipo de Cirurgia", "N", "Mínimo (h)", "Máximo (h)", "Média (h)", "Desvio Padrão (h)"]
 st.dataframe(df_estatisticas)
 
-# 📊 Tempo cirúrgico por grupo mestre com hover interativo
+# 🕒 Duração por grupo patológico
 st.subheader("🕒 Duração Cirúrgica por Grupo Patológico")
-
-# Agrupar estatísticas
-df_tempo = df.groupby("GRUPO_MESTRE")["DURACAO_HORAS"].agg(["min", "max", "mean"]).reset_index()
-df_tempo = df_tempo.round(2)
+df_tempo = df.groupby("GRUPO_MESTRE")["DURACAO_HORAS"].agg(["min", "max", "mean"]).reset_index().round(2)
 df_tempo.columns = ["Grupo Patológico", "Mínimo (h)", "Máximo (h)", "Média (h)"]
 
-# Gráfico de barras com média e hover mostrando tudo
 fig_duracao = px.bar(
     df_tempo,
     x="Média (h)",
@@ -141,32 +112,24 @@ fig_duracao.update_layout(
 
 st.plotly_chart(fig_duracao, use_container_width=True)
 
-
-
+# 💉 Anestesia LOCAL
 st.subheader("💉 Casos com Anestesia LOCAL")
-
-# Total geral
 total_local = len(df[df['ANEST'] == 'LOCAL'])
 st.metric(label="Total de casos com anestesia LOCAL", value=total_local)
 
-# Criar variável LOCAL_SEM_TRAQUEOSTOMIA
 df['LOCAL_SEM_TRAQUEOSTOMIA'] = (
     (df['ANEST'] == 'LOCAL') & (~df['CIRURGIA_GRUPO'].str.contains("TRAQUEOSTOMIA", case=False, na=False))
 )
 df['LOCAL_SEM_TRAQUEOSTOMIA'] = df['LOCAL_SEM_TRAQUEOSTOMIA'].map({True: 'SIM', False: 'NÃO'})
 
-st.subheader("🧪 Anestesia LOCAL sem Traqueostomia")
-
-# Total de casos com anestesia local sem traqueostomia
+st.subheader("🧪 Anestesia LOCAL sem contar as Traqueostomias")
 total_sem_traq = (df['LOCAL_SEM_TRAQUEOSTOMIA'] == 'SIM').sum()
 st.metric(label="Total LOCAL sem traqueostomia", value=total_sem_traq)
 
-# Agrupar por tipo de cirurgia
 df_local_sem_traq = df[df['LOCAL_SEM_TRAQUEOSTOMIA'] == 'SIM']
 subgrupo_counts = df_local_sem_traq['CIRURGIA_GRUPO'].value_counts().reset_index()
 subgrupo_counts.columns = ['Subgrupo Cirúrgico', 'Quantidade']
 
-# Gráfico
 fig_local = px.bar(
     subgrupo_counts,
     x='Quantidade',
@@ -187,32 +150,25 @@ fig_local.update_layout(
 
 st.plotly_chart(fig_local, use_container_width=True)
 
+# 🚨 Complicações selecionadas
 if comp_selecionadas:
     st.subheader("🚨 Casos com Complicações Selecionadas")
-
-    # Filtrar os casos que têm alguma das complicações marcadas como SIM
     colunas_complicacoes = [col for col in df.columns if col.upper() in comp_selecionadas]
     df_comp = df[df[colunas_complicacoes].apply(lambda row: any(row == 'SIM'), axis=1)]
-
     st.write(f"Total de casos com complicações selecionadas: {len(df_comp)}")
     st.dataframe(df_comp)
 
-
-#✅ 1. Filtrar os casos relevantes
-
+# 🕐 Tabela de tempo por subgrupo (LOCAL sem traqueostomia)
 df_local_sem_traq = df[df['LOCAL_SEM_TRAQUEOSTOMIA'] == 'SIM']
 tabela_tempo_subgrupo = df_local_sem_traq.groupby('CIRURGIA_GRUPO')['DURACAO_HORAS'].agg(['count', 'mean', 'min', 'max']).reset_index()
 tabela_tempo_subgrupo.columns = ['Subgrupo Cirúrgico', 'N', 'Média (h)', 'Mínimo (h)', 'Máximo (h)']
 tabela_tempo_subgrupo = tabela_tempo_subgrupo.round(2)
+
 st.subheader("🕐 Tempo Cirúrgico por Subgrupo (Anestesia Local sem Traqueostomia)")
 st.dataframe(tabela_tempo_subgrupo, use_container_width=True)
 
-
-
-# 🔎 Seção de busca por número MV
+# 🔎 Buscar por número MV
 st.subheader("🔎 Buscar Paciente por Número MV")
-
-# Campo de entrada do usuário
 mv_input = st.text_input("Digite o número MV do paciente (exato):")
 
 if mv_input:
@@ -223,6 +179,6 @@ if mv_input:
     else:
         st.warning("Nenhum paciente encontrado com esse número MV.")
 
-
 st.markdown("---")
 st.caption("")
+
