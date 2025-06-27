@@ -93,12 +93,11 @@ fig_chefe = px.bar(df_chefe, x="Quantidade", y="Chefe", orientation="h", text="Q
 st.plotly_chart(fig_chefe, use_container_width=True)
 
 # Cirurgias por grupo com múltiplas cores
-
-    st.subheader("🏥 Cirurgias")
-    df_grupo = df["CIRURGIA_GRUPO"].value_counts().reset_index()
-    df_grupo.columns = ["Tipo de Cirurgia", "Quantidade"]
-    fig_grupo = px.bar(df_grupo, x="Quantidade", y="Tipo de Cirurgia", orientation="h", text="Quantidade", color="Tipo de Cirurgia")
-    st.plotly_chart(fig_grupo, use_container_width=True)
+st.subheader("🏥 Cirurgias")
+df_grupo = df["CIRURGIA_GRUPO"].value_counts().reset_index()
+df_grupo.columns = ["Tipo de Cirurgia", "Quantidade"]
+fig_grupo = px.bar(df_grupo, x="Quantidade", y="Tipo de Cirurgia", orientation="h", text="Quantidade", color="Tipo de Cirurgia")
+st.plotly_chart(fig_grupo, use_container_width=True)
 
 # Cirurgias por patologia (grupo mestre)
 st.subheader("🧠 Cirurgias por Patologia")
