@@ -56,15 +56,33 @@ df = df[df['ANO_MES'].isin(meses_selecionados)]
 
 
 # Layout com colunas
-col1, col2 = st.columns(2)
 
-# Gráfico de tendência (linha) para número de procedimentos por mês
+
+col1, _ = st.columns(2)  # Mantém só uma coluna para o gráfico de linha
+
+# Gráfico de tendência (linha)
 with col1:
     st.subheader("📈 Número de Procedimentos por Mês")
     df_mes = df.groupby("ANO_MES").size().reset_index(name="Quantidade")
     fig_linha = px.line(df_mes, x="ANO_MES", y="Quantidade", markers=True)
     fig_linha.update_traces(line_color='royalblue')
     st.plotly_chart(fig_linha, use_container_width=True)
+
+# 🔽 Agora o gráfico de barras vai abaixo, fora das colunas
+st.subheader("🏥 Cirurgias")
+df_grupo = df["CIRURGIA_GRUPO"].value_counts().reset_index()
+df_grupo.columns = ["Tipo de Cirurgia", "Quantidade"]
+fig_grupo = px.bar(df_grupo, x="Quantidade", y="Tipo de Cirurgia", orientation="h", text="Quantidade", color="Tipo de Cirurgia")
+st.plotly_chart(fig_grupo, use_container_width=True)
+
+
+# Gráfico de tendência (linha) para número de procedimentos por mês
+#with col1:
+#    st.subheader("📈 Número de Procedimentos por Mês")
+#    df_mes = df.groupby("ANO_MES").size().reset_index(name="Quantidade")
+#    fig_linha = px.line(df_mes, x="ANO_MES", y="Quantidade", markers=True)
+#    fig_linha.update_traces(line_color='royalblue')
+#    st.plotly_chart(fig_linha, use_container_width=True)
 
 # Número de cirurgias por chefe com múltiplas cores
 st.subheader("👨‍⚕️ Cirurgias por Cirurgião Chefe")
