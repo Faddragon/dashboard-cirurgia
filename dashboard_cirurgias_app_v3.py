@@ -137,8 +137,6 @@ if pagina == "📊 Visão Geral":
     )
     st.plotly_chart(fig_local_mes, use_container_width=True)
     )
-    st.plotly_chart(fig_sem_traq_mes, use_container_width=True)
-
 
     # 🔍 Busca por MV
     st.subheader("🔎 Buscar Paciente por Número MV")
