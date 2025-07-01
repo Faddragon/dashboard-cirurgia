@@ -98,18 +98,19 @@ if pagina == "📊 Visão Geral":
     st.plotly_chart(fig_duracao, use_container_width=True)
 
 # 💉 Anestesia LOCAL por mês
-st.subheader("💉 Casos com Anestesia LOCAL por Mês")
-# Filtra apenas casos com anestesia LOCAL
- df_local = df[df['ANEST'] == 'LOCAL']
+    st.subheader("💉 Casos com Anestesia LOCAL por Mês")  
+    # Filtra apenas casos com anestesia LOCAL
+     df_local = df[df['ANEST'] == 'LOCAL']
+    
 # Agrupa por mês
- df_local_mes = df_local.groupby('ANO_MES').size().reset_index(name='Quantidade')
+    df_local_mes = df_local.groupby('ANO_MES').size().reset_index(name='Quantidade')
 # Gráfico de colunas
- fig_local_mes = px.bar(
-     df_local_mes,
-     x='ANO_MES',
-     y='Quantidade',
-     text='Quantidade',
-     labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
+    fig_local_mes = px.bar(
+    df_local_mes,
+    x='ANO_MES',
+    y='Quantidade',
+    text='Quantidade',
+    labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
  )
 fig_local_mes.update_layout(
     xaxis={'categoryorder': 'category ascending'},
