@@ -97,51 +97,44 @@ if pagina == "📊 Visão Geral":
     fig_duracao.update_layout(template="simple_white", showlegend=False, height=500)
     st.plotly_chart(fig_duracao, use_container_width=True)
 
-# 💉 Anestesia LOCAL por mês
-    st.subheader("💉 Casos com Anestesia LOCAL por Mês")  
-    # Filtra apenas casos com anestesia LOCAL
-     df_local = df[df['ANEST'] == 'LOCAL']
-    
-# Agrupa por mês
+    # 💉 Anestesia LOCAL por mês
+    st.subheader("💉 Casos com Anestesia LOCAL por Mês")
+    df_local = df[df['ANEST'] == 'LOCAL']
     df_local_mes = df_local.groupby('ANO_MES').size().reset_index(name='Quantidade')
-# Gráfico de colunas
     fig_local_mes = px.bar(
-    df_local_mes,
-    x='ANO_MES',
-    y='Quantidade',
-    text='Quantidade',
-    labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
- )
-fig_local_mes.update_layout(
-    xaxis={'categoryorder': 'category ascending'},
-    template='simple_white',
-    height=400
-)
-st.plotly_chart(fig_local_mes, use_container_width=True)
+        df_local_mes,
+        x='ANO_MES',
+        y='Quantidade',
+        text='Quantidade',
+        labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
+    )
+    fig_local_mes.update_layout(
+        xaxis={'categoryorder': 'category ascending'},
+        template='simple_white',
+        height=400
+    )
+    st.plotly_chart(fig_local_mes, use_container_width=True)
 
-# 🧪 Anestesia LOCAL sem Traqueostomia por mês
-st.subheader("🧪 Casos com Anestesia LOCAL sem Traqueostomia por Mês")
-# Filtra casos com anestesia LOCAL e sem traqueostomia
- df_local_sem_traq = df[
-     (df['ANEST'] == 'LOCAL') &
-     (~df['CIRURGIA_GRUPO'].str.contains('TRAQUEOSTOMIA', case=False, na=False))
- ]
-# Agrupa por mês
- df_local_sem_traq_mes = df_local_sem_traq.groupby('ANO_MES').size().reset_index(name='Quantidade')
-# Gráfico de colunas
- fig_sem_traq_mes = px.bar(
-     df_local_sem_traq_mes,
-     x='ANO_MES',
-     y='Quantidade',
-     text='Quantidade',
-     labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
- )
-fig_sem_traq_mes.update_layout(
-    xaxis={'categoryorder': 'category ascending'},
-    template='simple_white',
-    height=400
-)
-st.plotly_chart(fig_sem_traq_mes, use_container_width=True)
+    # 🧪 Anestesia LOCAL sem Traqueostomia por mês
+    st.subheader("🧪 Casos com Anestesia LOCAL sem Traqueostomia por Mês")
+    df_local_sem_traq = df[
+        (df['ANEST'] == 'LOCAL') &
+        (~df['CIRURGIA_GRUPO'].str.contains('TRAQUEOSTOMIA', case=False, na=False))
+    ]
+    df_local_sem_traq_mes = df_local_sem_traq.groupby('ANO_MES').size().reset_index(name='Quantidade')
+    fig_sem_traq_mes = px.bar(
+        df_local_sem_traq_mes,
+        x='ANO_MES',
+        y='Quantidade',
+        text='Quantidade',
+        labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
+    )
+    fig_sem_traq_mes.update_layout(
+        xaxis={'categoryorder': 'category ascending'},
+        template='simple_white',
+        height=400
+    )
+    st.plotly_chart(fig_sem_traq_mes, use_container_width=True)
 
 
     # 🔍 Busca por MV
