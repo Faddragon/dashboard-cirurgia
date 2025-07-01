@@ -115,7 +115,7 @@ if pagina == "📊 Visão Geral":
     )
     st.plotly_chart(fig_local_mes, use_container_width=True)
 
-    # 🧪 Anestesia LOCAL sem Traqueostomia por mês
+      # 🧪 Anestesia LOCAL sem Traqueostomia por mês
     st.subheader("🧪 Casos com Anestesia LOCAL sem Traqueostomia por Mês")
     df_local_sem_traq = df[
         (df['ANEST'] == 'LOCAL') &
@@ -129,14 +129,15 @@ if pagina == "📊 Visão Geral":
         text='Quantidade',
         labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
     )
-    fig_local_mes.update_traces(marker_color='crimson')
-    fig_local_mes.update_layout(
+    # cor personalizada (por exemplo, seagreen)
+    fig_sem_traq_mes.update_traces(marker_color='seagreen')
+    fig_sem_traq_mes.update_layout(
         xaxis={'categoryorder': 'category ascending'},
         template='simple_white',
         height=400
     )
-    st.plotly_chart(fig_local_mes, use_container_width=True)
-    )
+    st.plotly_chart(fig_sem_traq_mes, use_container_width=True)
+
 
     # 🔍 Busca por MV
     st.subheader("🔎 Buscar Paciente por Número MV")
