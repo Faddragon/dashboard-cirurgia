@@ -129,10 +129,13 @@ if pagina == "📊 Visão Geral":
         text='Quantidade',
         labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
     )
-    fig_sem_traq_mes.update_layout(
+    fig_local_mes.update_traces(marker_color='crimson')
+    fig_local_mes.update_layout(
         xaxis={'categoryorder': 'category ascending'},
         template='simple_white',
         height=400
+    )
+    st.plotly_chart(fig_local_mes, use_container_width=True)
     )
     st.plotly_chart(fig_sem_traq_mes, use_container_width=True)
 
