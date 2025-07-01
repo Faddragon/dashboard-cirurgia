@@ -97,32 +97,51 @@ if pagina == "📊 Visão Geral":
     fig_duracao.update_layout(template="simple_white", showlegend=False, height=500)
     st.plotly_chart(fig_duracao, use_container_width=True)
 
-    # 💉 Anestesia LOCAL
-    st.subheader("💉 Casos com Anestesia LOCAL")
-    total_local = len(df[df['ANEST'] == 'LOCAL'])
-    st.metric(label="Total de casos com anestesia LOCAL", value=total_local)
+# 💉 Anestesia LOCAL por mês
+st.subheader("💉 Casos com Anestesia LOCAL por Mês")
+# Filtra apenas casos com anestesia LOCAL
+ df_local = df[df['ANEST'] == 'LOCAL']
+# Agrupa por mês
+ df_local_mes = df_local.groupby('ANO_MES').size().reset_index(name='Quantidade')
+# Gráfico de colunas
+ fig_local_mes = px.bar(
+     df_local_mes,
+     x='ANO_MES',
+     y='Quantidade',
+     text='Quantidade',
+     labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
+ )
+fig_local_mes.update_layout(
+    xaxis={'categoryorder': 'category ascending'},
+    template='simple_white',
+    height=400
+)
+st.plotly_chart(fig_local_mes, use_container_width=True)
 
-    df['LOCAL_SEM_TRAQUEOSTOMIA'] = (
-        (df['ANEST'] == 'LOCAL') & (~df['CIRURGIA_GRUPO'].str.contains("TRAQUEOSTOMIA", case=False, na=False))
-    )
-    df['LOCAL_SEM_TRAQUEOSTOMIA'] = df['LOCAL_SEM_TRAQUEOSTOMIA'].map({True: 'SIM', False: 'NÃO'})
+# 🧪 Anestesia LOCAL sem Traqueostomia por mês
+st.subheader("🧪 Casos com Anestesia LOCAL sem Traqueostomia por Mês")
+# Filtra casos com anestesia LOCAL e sem traqueostomia
+ df_local_sem_traq = df[
+     (df['ANEST'] == 'LOCAL') &
+     (~df['CIRURGIA_GRUPO'].str.contains('TRAQUEOSTOMIA', case=False, na=False))
+ ]
+# Agrupa por mês
+ df_local_sem_traq_mes = df_local_sem_traq.groupby('ANO_MES').size().reset_index(name='Quantidade')
+# Gráfico de colunas
+ fig_sem_traq_mes = px.bar(
+     df_local_sem_traq_mes,
+     x='ANO_MES',
+     y='Quantidade',
+     text='Quantidade',
+     labels={'ANO_MES': 'Mês', 'Quantidade': 'Número de Casos'}
+ )
+fig_sem_traq_mes.update_layout(
+    xaxis={'categoryorder': 'category ascending'},
+    template='simple_white',
+    height=400
+)
+st.plotly_chart(fig_sem_traq_mes, use_container_width=True)
 
-    st.subheader("🧪 Anestesia LOCAL sem Traqueostomia")
-    total_sem_traq = (df['LOCAL_SEM_TRAQUEOSTOMIA'] == 'SIM').sum()
-    st.metric(label="Total LOCAL sem traqueostomia", value=total_sem_traq)
-
-    df_local_sem_traq = df[df['LOCAL_SEM_TRAQUEOSTOMIA'] == 'SIM']
-    subgrupo_counts = df_local_sem_traq['CIRURGIA_GRUPO'].value_counts().reset_index()
-    subgrupo_counts.columns = ['Subgrupo Cirúrgico', 'Quantidade']
-    fig_local = px.bar(subgrupo_counts, x='Quantidade', y='Subgrupo Cirúrgico', orientation='h', text='Quantidade', color='Subgrupo Cirúrgico')
-    fig_local.update_layout(template='simple_white', height=500, showlegend=False)
-    st.plotly_chart(fig_local, use_container_width=True)
-
-    # 🕐 Tabela tempo por subgrupo
-    st.subheader("🕐 Tempo Cirúrgico por Subgrupo (Anestesia Local sem Traqueostomia)")
-    tabela_tempo_subgrupo = df_local_sem_traq.groupby('CIRURGIA_GRUPO')['DURACAO_HORAS'].agg(['count', 'mean', 'min', 'max']).reset_index()
-    tabela_tempo_subgrupo.columns = ['Subgrupo Cirúrgico', 'N', 'Média (h)', 'Mínimo (h)', 'Máximo (h)']
-    st.dataframe(tabela_tempo_subgrupo.round(2), use_container_width=True)
 
     # 🔍 Busca por MV
     st.subheader("🔎 Buscar Paciente por Número MV")
