@@ -23,7 +23,7 @@ df = carregar_dados()
 # ⬅️ Menu lateral com abas
 pagina = st.sidebar.radio("🗂️ Selecione a página:", [
     "📊 Visão Geral",
-    "🦋 Tireoidectomia Total"
+    "🦋 Tireoidectomia Total",
     "👩‍🦲 Glândula Salivar Maior"
 ])
 
