@@ -135,7 +135,7 @@ if pagina == "📊 Visão Geral":
     )
     st.plotly_chart(fig_local_mes, use_container_width=True)
 
-      # 🧪 Anestesia LOCAL sem Traqueostomia por mês
+      # 🧪 Anestesia LOCAL (Excluidas as traqueostomias)
     st.subheader("🧪 Casos com Anestesia LOCAL sem Traqueostomia por Mês")
     df_local_sem_traq = df[
         (df['ANEST'] == 'LOCAL') &
@@ -179,9 +179,57 @@ elif pagina == "🦋 Tireoidectomia Total":
     # 🎤 Disfonia
     st.subheader("🎤 Disfonia (n = 9)")
     dados_disfonia = pd.DataFrame({
-        "MV": [199740, 207727, 108751, 203208, 206345, 215084, 205099, 218961, 216728],
-        "Melhora?": ["Sim", "Não", "Sim", "Não", "Não", "Não", "Não", "Não", "Não"],
-        "Tempo até Melhora (dias)": ["62", None, "46", None, None, None, None, None, None]
+        "MV": [199740, 207727, 108751, 203208, 206345, 215084, 205099, 218961, 216728
+      
+                193918,
+                213654,
+                216703,
+                213672,
+                218902,
+                216082,
+                225449,
+                221738,
+                230398,
+                197460,
+                89060,
+                214297
+                            
+              ],
+        
+        "Melhora?": ["Sim", "Não", "Sim", "Não", "Não", "Não", "Não", "Não", "Não",
+                 
+            
+                "sim",
+                "sim",
+                "Não",
+                "Não",
+                "Não",
+                "Não",
+                "Não",
+                "Não",
+                "Não",
+                "Não",
+                "Não",
+                "Não"
+                    
+                    ],
+        "Tempo até Melhora (dias)": ["62", None, "46", None, None, None, None, None, None,
+              
+                "63",
+                "65",
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                                        
+                                  
+                                    ]
     })
 
     # Função de destaque condicional
@@ -196,11 +244,18 @@ elif pagina == "🦋 Tireoidectomia Total":
     st.subheader("🩸 Hematoma (n = 1)")
     st.write("- MV: 210328")
 
+    #  🙋‍♂️ Paralisia de nervo acessório
+    st.subheader("🙋‍♂️ Paralisia de nervo acessório (n = 1)")
+    st.write("- MV: 204701")
+
+      
     # 🧪 Hipoparatireoidismo / parestesia
-    st.subheader("🧪 Hipoparatireoidismo / Parestesia (n = 2)")
+    st.subheader("🧪 Hipoparatireoidismo / Parestesia (n = 4)")
     dados_hipopara = pd.DataFrame({
-        "MV": [128177, 215897],
+        "MV": [128177, 215897, 213625, 210336],
         "Comentário": [
+            "Somente parestesia sem alteração de PTH",
+            "Somente parestesia sem alteração de PTH",
             "Somente parestesia sem alteração de PTH",
             "Somente parestesia sem alteração de PTH"
         ]
@@ -208,7 +263,82 @@ elif pagina == "🦋 Tireoidectomia Total":
     st.dataframe(dados_hipopara)
 
     # 💧 Seroma
-    st.subheader("💧 Seroma (n = 4)")
-    mv_seroma = [210319, 207683, 216790, 209340]
+    st.subheader("💧 Seroma (n = 6)")
+    mv_seroma = [210319, 207683, 216790, 209340, 14668, 222735]
     st.write("MV dos casos com seroma:")
     st.write(", ".join(map(str, mv_seroma)))
+
+
+# =====================================
+# 👩‍🦲 Glândula Salivar Maior
+# =====================================
+elif pagina == "👩‍🦲 Glândula Salivar Maior":
+    st.title("👩‍🦲 Complicações em cirurgia de Glândula salivar maior ")
+
+    # 🫤 Paralisia não programada de nervo facial
+    st.subheader("🫤 Paralisia facial (n = 9)")
+    dados_paralisia_facial = pd.DataFrame({
+        "MV": [210287,
+                204931,
+                215024,
+                210514,
+                219732,
+                219657,
+                219763,
+                210514                            
+              ],
+        
+        "Melhora?": ["Não",
+                     "Não",
+                    "Não",
+                    "Não",
+                    "Não",
+                    "Não",
+                    "Não",
+                    "Não"
+            ],
+        "Tempo até Melhora (dias)": [None,
+None,
+None,
+None,
+None,
+None,
+None,
+None,
+                                        
+                                  
+                                    ]
+    })
+
+    # Função de destaque condicional
+    def highlight_sim(val):
+        return 'background-color: red; color: white;' if val == "Sim" else ''
+
+    # Aplicar estilo e exibir
+    st.dataframe(dados_paralisia_facial.style.applymap(highlight_sim, subset=["Melhora?"]))
+
+
+    # Deicência de ferida operatória
+    st.subheader("deicencia  (n = 4)")
+    dados_deicencia = pd.DataFrame({
+        "MV": [215024,
+216078,
+210514,
+213666,
+210514],
+        "Comentário": [
+            "Sem necessidade de reoperação",
+            "Sem necessidade de reoperação",
+            "Sem necessidade de reoperação",
+            "Sem necessidade de reoperação",
+            "Sem necessidade de reoperação"
+        ]
+    })
+    st.dataframe(dados_deicencia)
+
+
+   #  🙋‍♂️ Paralisia de nervo acessório
+    st.subheader("🙋‍♂️ Paralisia de nervo acessório (n = 1)")
+    st.write("- MV: 210514")
+
+
