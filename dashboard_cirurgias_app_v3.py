@@ -32,6 +32,17 @@ if pagina == "📊 Visão Geral":
     meses_selecionados = st.multiselect("🗓️ Selecione os mês(es):", options=meses_disponiveis, default=meses_disponiveis)
     df = df[df['ANO_MES'].isin(meses_selecionados)]
 
+# ✅ Total de cirurgias no período selecionado
+total_cirurgias = len(df)
+
+# Caixa de destaque centralizada
+st.markdown(f"""
+<div style='background-color:#ecf0f1; padding: 15px; border-radius: 8px; text-align: center; margin-top: 10px;'>
+    <h3 style='color:#2c3e50;'>🧾 Total de Cirurgias no Período Selecionado: <span style='color:#2980b9;'>{total_cirurgias}</span></h3>
+</div>
+""", unsafe_allow_html=True)
+
+
     col1, _ = st.columns(2)
     with col1:
         st.subheader("📈 Procedimentos por Mês")
