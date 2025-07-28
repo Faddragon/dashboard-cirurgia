@@ -318,7 +318,7 @@ None,
     st.dataframe(dados_paralisia_facial.style.applymap(highlight_sim, subset=["Melhora?"]))
 
 
-    # Deicência de ferida operatória
+    # 𓄧 Deicência de ferida operatória
     st.subheader("deicencia  (n = 4)")
     dados_deicencia = pd.DataFrame({
         "MV": [215024,
