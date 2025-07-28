@@ -179,7 +179,7 @@ elif pagina == "🦋 Tireoidectomia Total":
     # 🎤 Disfonia
     st.subheader("🎤 Disfonia (n = 9)")
     dados_disfonia = pd.DataFrame({
-        "MV": [199740, 207727, 108751, 203208, 206345, 215084, 205099, 218961, 216728
+        "MV": [199740, 207727, 108751, 203208, 206345, 215084, 205099, 218961, 216728,
       
                 193918,
                 213654,
