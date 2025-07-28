@@ -62,13 +62,33 @@ if pagina == "📊 Visão Geral":
         fig_linha.update_traces(line_color='royalblue')
         st.plotly_chart(fig_linha, use_container_width=True)
 
+
     # 🏥 Cirurgias por grupo
     st.subheader("🏥 Cirurgias")
+
     df_grupo = df["CIRURGIA_GRUPO"].value_counts().reset_index()
     df_grupo.columns = ["Tipo de Cirurgia", "Quantidade"]
-    fig_grupo = px.bar(df_grupo, x="Quantidade", y="Tipo de Cirurgia", orientation="h", text="Quantidade", color="Tipo de Cirurgia")
+    fig_grupo = px.bar(
+        df_grupo,
+        x="Quantidade",
+        y="Tipo de Cirurgia",
+        orientation="h",
+        text="Quantidade",
+        color="Tipo de Cirurgia",
+        height=600  # 🔺 Aumenta a altura
+    )
+    fig_grupo.update_traces(marker_line_width=1.2, textposition='outside')  # 🔺 Espessura e posição do texto
+    fig_grupo.update_layout(
+        template="simple_white",
+        xaxis_title="Número de Cirurgias",
+        yaxis_title="",
+        font=dict(size=14),  # 🔺 Tamanho da fonte
+        yaxis=dict(autorange="reversed"),  # 🔁 Ordena do maior pro menor no eixo Y
+    )
     st.plotly_chart(fig_grupo, use_container_width=True)
 
+
+    
     # 👨‍⚕️ Cirurgias por chefe
     st.subheader("👨‍⚕️ Cirurgias por Cirurgião Chefe")
     df_chefe = df["CHEFE"].value_counts().reset_index()
