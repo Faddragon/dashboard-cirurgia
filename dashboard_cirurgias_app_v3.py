@@ -23,7 +23,7 @@ df = carregar_dados()
 # ⬅️ Menu lateral com abas
 pagina = st.sidebar.radio("🗂️ Selecione a página:", [
     "📊 Visão Geral",
-    "🦋 Tireoidectomia Total",
+    "🦋 Cirurgia de Tireoide",
     "👩‍🦲 Glândula Salivar Maior"
 ])
 
@@ -172,10 +172,21 @@ if pagina == "📊 Visão Geral":
             st.warning("Nenhum paciente encontrado com esse número MV.")
 
 # =====================================
-# 🦋 TIREOIDECTOMIA TOTAL
+# 🦋 Cirurgia de Tireoide
 # =====================================
-elif pagina == "🦋 Tireoidectomia Total":
-    st.title("🦋 Complicações após Tireoidectomia Total")
+
+# Contar número total de cirurgias de TIREOIDE
+total_tireoide = df[df["GRUPO_MESTRE"] == "TIREOIDE"].shape[0]
+
+# Mostrar o número total de cirurgias
+st.markdown(f"**🔢 Total de cirurgias de tireoide realizadas:** {total_tireoide}")
+
+
+elif pagina == "🦋 Cirurgia de Tireoide":
+    st.title("🦋 Complicações após Cirurgia de Tireoide")
+
+total_tireoide = df[df["GRUPO_MESTRE"] == "TIREOIDE"].shape[0]
+st.markdown(f"**🔢 Total de cirurgias de tireoide realizadas:** {total_tireoide}")
 
     # 🎤 Disfonia
     st.subheader("🎤 Disfonia (n = 21)")
@@ -320,7 +331,7 @@ None,
 
 
     # 𓄧 Deicência de ferida operatória
-    st.subheader("deicencia  (n = 5)")
+    st.subheader("Deicencia ou infecção de ferida operatória  (n = 5)")
     dados_deicencia = pd.DataFrame({
         "MV": [215024,
 216078,
