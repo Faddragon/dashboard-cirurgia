@@ -87,7 +87,7 @@ if pagina == "📊 Visão Geral":
     st.plotly_chart(fig_duracao, use_container_width=True)
 
     # 💉 Anestesia LOCAL por mês
-    st.subheader("💉 Casos com Anestesia LOCAL por Mês")
+    st.subheader("💉 Casos com Anestesia LOCAL")
     df_local = df[df['ANEST'] == 'LOCAL']
     df_local_mes = df_local.groupby('ANO_MES').size().reset_index(name='Quantidade')
     fig_local_mes = px.bar(
@@ -105,7 +105,7 @@ if pagina == "📊 Visão Geral":
     st.plotly_chart(fig_local_mes, use_container_width=True)
 
       # 🧪 Anestesia LOCAL (Excluidas as traqueostomias)
-    st.subheader("🧪 Casos com Anestesia LOCAL sem Traqueostomia por Mês")
+    st.subheader("🧪 Casos com Anestesia LOCAL (excluidos os casos de traqueostomias)")
     df_local_sem_traq = df[
         (df['ANEST'] == 'LOCAL') &
         (~df['CIRURGIA_GRUPO'].str.contains('TRAQUEOSTOMIA', case=False, na=False))
