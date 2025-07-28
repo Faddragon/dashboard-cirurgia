@@ -10,7 +10,7 @@ st.set_page_config(page_title="Dashboard Cirurgias CCP - IAVC", layout="wide")
 # ⬇️ Dados
 @st.cache_data
 def carregar_dados():
-    df = pd.read_excel("cirurgias_cp_MM.xlsx.xlsx")
+    df = pd.read_excel("cirurgias_cp_MM.xlsx")
     df['DATA'] = pd.to_datetime(df['DATA'], errors='coerce')
     df['ANO_MES'] = df['DATA'].dt.to_period('M').astype(str)
     df['CHEFE'] = df['CHEFE'].str.upper().str.strip()
