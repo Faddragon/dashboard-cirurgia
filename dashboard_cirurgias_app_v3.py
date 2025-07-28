@@ -31,7 +31,7 @@ pagina = st.sidebar.radio("🗂️ Selecione a página:", [
 # 📊 VISÃO GERAL
 # =====================================
 if pagina == "📊 Visão Geral":
-    st.title("📊 Dashboard de Cirurgias - CCP (Janeiro - Abril 2025)")
+    st.title("📊 Dashboard de Cirurgias - CCP (Janeiro - junho 2025)")
 
     # 🎯 Lista de complicações (só nesta aba)
     complicacoes_disponiveis = [
@@ -175,15 +175,13 @@ if pagina == "📊 Visão Geral":
 # 🦋 Cirurgia de Tireoide
 # =====================================
 
-# Contar número total de cirurgias de TIREOIDE
-total_tireoide = df[df["GRUPO_MESTRE"] == "TIREOIDE"].shape[0]
-
-# Mostrar o número total de cirurgias
-st.markdown(f"**🔢 Total de cirurgias de tireoide realizadas:** {total_tireoide}")
-
-
 elif pagina == "🦋 Cirurgia de Tireoide":
     st.title("🦋 Complicações após Cirurgia de Tireoide")
+
+    # 🔢 Total de cirurgias de tireoide
+    total_tireoide = df[df["GRUPO_MESTRE"] == "TIREOIDE"].shape[0]
+    st.markdown(f"**🔢 Total de cirurgias de tireoide realizadas:** {total_tireoide}")
+
 
 total_tireoide = df[df["GRUPO_MESTRE"] == "TIREOIDE"].shape[0]
 st.markdown(f"**🔢 Total de cirurgias de tireoide realizadas:** {total_tireoide}")
