@@ -24,6 +24,7 @@ df = carregar_dados()
 pagina = st.sidebar.radio("🗂️ Selecione a página:", [
     "📊 Visão Geral",
     "🦋 Tireoidectomia Total"
+    "👩‍🦲 Glândula Salivar Maior"
 ])
 
 # =====================================
@@ -177,7 +178,7 @@ elif pagina == "🦋 Tireoidectomia Total":
     st.title("🦋 Complicações após Tireoidectomia Total")
 
     # 🎤 Disfonia
-    st.subheader("🎤 Disfonia (n = 9)")
+    st.subheader("🎤 Disfonia (n = 21)")
     dados_disfonia = pd.DataFrame({
         "MV": [199740, 207727, 108751, 203208, 206345, 215084, 205099, 218961, 216728,
       
@@ -199,8 +200,8 @@ elif pagina == "🦋 Tireoidectomia Total":
         "Melhora?": ["Sim", "Não", "Sim", "Não", "Não", "Não", "Não", "Não", "Não",
                  
             
-                "sim",
-                "sim",
+                "Sim",
+                "Sim",
                 "Não",
                 "Não",
                 "Não",
@@ -276,7 +277,7 @@ elif pagina == "👩‍🦲 Glândula Salivar Maior":
     st.title("👩‍🦲 Complicações em cirurgia de Glândula salivar maior ")
 
     # 🫤 Paralisia não programada de nervo facial
-    st.subheader("🫤 Paralisia facial (n = 9)")
+    st.subheader("🫤 Paralisia facial (n = 8)")
     dados_paralisia_facial = pd.DataFrame({
         "MV": [210287,
                 204931,
@@ -319,7 +320,7 @@ None,
 
 
     # 𓄧 Deicência de ferida operatória
-    st.subheader("deicencia  (n = 4)")
+    st.subheader("deicencia  (n = 5)")
     dados_deicencia = pd.DataFrame({
         "MV": [215024,
 216078,
